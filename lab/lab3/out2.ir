@@ -1,0 +1,16 @@
+FUNCTION main :
+DEC a 16
+READ t1
+t2 := #0
+t3 := t2 * #4
+t4 := a + t3
+*t4 := t1
+t6 := #0
+t7 := t6 * #4
+t8 := a + t7
+t5 := *t8
+b := t5
+t9 := b
+WRITE t9
+t10 := #0
+RETURN t10

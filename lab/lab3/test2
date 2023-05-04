@@ -1,0 +1,9 @@
+int main()
+{
+    int b;
+    int a[4];
+    a[0] = read();
+    b = a[0];
+    write(b);
+    return 0;
+}

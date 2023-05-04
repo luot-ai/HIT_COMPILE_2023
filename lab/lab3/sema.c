@@ -185,6 +185,33 @@ funcEntry* searchFuncTable(char* name,funcTable* t)
 
 void semaAnaly(funcTable* F,varTable* V,Node* parser_node)
 {
+	//0501
+Type read_return_type = (Type)malloc(sizeof(TypeEntry));
+read_return_type->kind=BASIC;
+read_return_type->u.basic=basic_type_int;
+insertFuncTable("read" , F , read_return_type , 0 , NULL);
+
+Type write_return_type = (Type)malloc(sizeof(TypeEntry));
+write_return_type->kind=BASIC;
+write_return_type->u.basic=basic_type_int;
+
+Type write_param_type = (Type)malloc(sizeof(TypeEntry));
+write_param_type->kind=BASIC;
+write_param_type->u.basic=basic_type_int;
+
+TypeList p=(TypeList)malloc(sizeof(TLEntry));
+p->next=NULL;
+p->type=write_param_type;
+
+TypeList write_param_types = (TypeList)malloc(sizeof(TLEntry)) ;
+write_param_types->type=NULL;
+write_param_types->next=p;
+
+insertFuncTable("write" , F , write_return_type , 1 , write_param_types);
+
+
+
+
 	Node* ExtDefList=parser_node->fir_child;
 	ExtDefListHandler(ExtDefList,F,V);
 }
@@ -768,7 +795,7 @@ Type ExpHandler(Node* Exp,varTable* V,funcTable* F)//18
 
 		else if(strcmp(expSecondChild->name,"LB")==0)
 		{
-			Node* shouldBeID=expFirChild->fir_child;
+			Node* shouldBeID=expFirChild->fir_child;//TODO: 此处有bug，但是在只有1维数组的情况下没事
 			if(exp1_ResultType->kind != ARRAY)
 			{
 				char* name=strdup(shouldBeID->token);
@@ -966,7 +993,7 @@ int CompareType(Type type1,Type type2)
 
 	else if(type1->kind==ARRAY)
 	{
-		int comRes=! CompareType(type1->u.array.elem,type2->u.array.elem);
+		int comRes = CompareType(type1->u.array.elem,type2->u.array.elem);
 		return comRes;
 	}
 
